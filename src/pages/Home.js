@@ -1,29 +1,25 @@
 import React from 'react';
 import { Box } from '@mui/system';
 import { useIdentityContext } from 'react-netlify-identity-gotrue'
-import { useState } from 'react';
-import { makeStyles } from '@mui/styles';
 
 const Home = () => {
     const identity = useIdentityContext()
 
-    const useStyles = makeStyles((theme) => ({
-        paper: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '1.5em',
-            backgroundColor: "white",
-            border: '2px solid #000',
-            minWidth: "400px",
-            zIndex: "0"
-        },
-    }));
 
-    const classes = useStyles();
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 600,
+        backgroundColor: "white",
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    }
 
     return (
-        <div className={classes.paper}>
+        <Box sx={style}>
             {!identity.provisionalUser && !identity.user && (
                 <h1>Welcome! Please login or sign up to continue.</h1>
             )}
@@ -35,7 +31,7 @@ const Home = () => {
             {identity.user && (
                 <h1>Welcome back, {identity.user.user_metadata?.full_name}!</h1>
             )}
-        </div>
+        </Box>
     )
 }
 

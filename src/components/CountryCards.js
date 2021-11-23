@@ -2,10 +2,17 @@ import { useCountryContext } from '../Contexts/CountryContext';
 import CountryData from './CountryData';
 import { useState } from 'react';
 import React from 'react';
+import { Box } from '@mui/system';
+import Link from '@mui/material/Link';
 import SearchForm from './SearchForm';
+import { useIdentityContext } from 'react-netlify-identity-gotrue'
+import { useHistory } from 'react-router-dom'
 
 
 const CountryCards = (props) => {
+    const identity = useIdentityContext()
+    const history = useHistory()
+
     const CountriesJson = useCountryContext();
     // This is the problem with resetting the search string
     // const [searchString, setSearchString] = useState(null);
@@ -49,26 +56,55 @@ const CountryCards = (props) => {
         return rows;
     }
 
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 600,
+        backgroundColor: "white",
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    }
+
+    const handleNavChoice = (choice) => {
+        history.push(`/${choice}`)
+    }
+
     return (
         <div className="container">
-            <SearchForm
-                filterRegionChangeHandler={filterRegionChangeHandler}
-                CountriesJson={CountriesJson}
-                filteredRegion={filteredRegion}
-                filteredCountries={filteredCountries}
-            />
-            {createRow().map((row) => {
-                return (
-                    <div className="row">
-                        {
-                            row.map((country) => {
-                                return (<CountryData
-                                    country={country} />);
-                            })
-                        }
-                    </div>
-                )
-            })}
+            {identity.user && (
+                <>
+
+                    <SearchForm
+                        filterRegionChangeHandler={filterRegionChangeHandler}
+                        CountriesJson={CountriesJson}
+                        filteredRegion={filteredRegion}
+                        filteredCountries={filteredCountries}
+                    />
+                    {createRow().map((row) => {
+                        return (
+                            <div className="row">
+                                {
+                                    row.map((country) => {
+                                        return (<CountryData
+                                            country={country} />);
+                                    })
+                                }
+                            </div>
+                        )
+                    })}
+                </>
+            )}
+            {!identity.provisionalUser && !identity.user && (
+                <Box sx={style}>
+                    <h1>You need to be <Link
+                        onClick={() => handleNavChoice('login', false)}>
+                        logged in </Link>
+                        to view this page!</h1>
+                </Box>
+            )}
         </div>
     )
 };

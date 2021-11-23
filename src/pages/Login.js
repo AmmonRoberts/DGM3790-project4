@@ -25,8 +25,8 @@ const Login = (props) => {
     <Box sx={style}>
       <Formik
         initialValues={{
-          email: 'foo@example.com',
-          password: 'Password123!',
+          email: '',
+          password: '',
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string()

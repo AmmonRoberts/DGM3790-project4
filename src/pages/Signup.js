@@ -25,9 +25,9 @@ const Signup = (props) => {
         <Box sx={style}>
             <Formik
                 initialValues={{
-                    userName: 'Test',
-                    email: 'foo@example.com',
-                    password: 'Password123!',
+                    userName: '',
+                    email: '',
+                    password: '',
                 }}
                 validationSchema={Yup.object().shape({
                     userName: Yup.string()
@@ -47,8 +47,6 @@ const Signup = (props) => {
                     try {
                         setStatus({ success: true })
                         setSubmitting(false)
-                        console.log('socks')
-
                         await identity.signup({
                             email: value.email, password: value.password, user_metadata: {
                                 full_name: value.userName

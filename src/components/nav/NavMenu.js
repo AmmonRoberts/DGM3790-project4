@@ -15,10 +15,8 @@ import Toolbar from '@mui/material/Toolbar'
 import * as React from 'react'
 import { useIdentityContext } from 'react-netlify-identity-gotrue'
 import { useHistory } from 'react-router-dom'
-import { useCountryContext } from '../../Contexts/CountryContext'
 
 const NavMenu = () => {
-    const CountriesJson = useCountryContext()
     const history = useHistory()
     const identity = useIdentityContext()
     const [isOpen, setIsOpen] = React.useState(false)
@@ -66,7 +64,7 @@ const NavMenu = () => {
                             size="large"
                             aria-label="home button"
                             color="inherit"
-                            onClick={() => handleNavChoice('welcome', false)}
+                            onClick={() => handleNavChoice('', false)}
                         >
                             <HomeIcon />
                         </IconButton>
